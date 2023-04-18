@@ -1,4 +1,5 @@
-import { scramble } from './algs.js';
+import { scramble, faceColors } from './algs.js';
+import { getCornerWords, getEdgeWords } from './bld.js';
 
 const sides = {
     top: [
@@ -40,16 +41,20 @@ const setColor = (fId, color) => {
 
 const setCubeState = (cubeState) => {
     for (const face in cubeState.faces) {
-        setColor(`face-${face}`,cubeState.faces[face]);
+        setColor(`face-${face}`,faceColors[cubeState.faces[face]]);
     }
 }
 
 document.getElementById("scrambleBtn").onclick = function() {
     const scrambleSeq = document.getElementById("scrambleSeq").value;
     const cubeState = scramble(scrambleSeq);
-    // console.log(cubeState);
+    console.log(cubeState);
 
     setCubeState(cubeState);
+    const cornerWords = getCornerWords(cubeState);
+    const edgeWords = getEdgeWords(cubeState);
+
+    document.getElementById("memo").innerText = cornerWords.join(" ")+ " | " + edgeWords.join(" ");
 };
 
 window.onload = function() {
