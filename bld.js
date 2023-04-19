@@ -1,6 +1,6 @@
-import words from './words.json' assert { type: "json" };
+import { posFaces as posFacesAll } from './algs.js';
 
-const letterMapCorners ={ 
+const letterMapCorners = { 
     53: 'A',
     54: 'B',
     51: 'C',
@@ -99,7 +99,8 @@ export const getCornerLetters = (cubeState) => {
         if (pos == cubeState.positions[pos]) {
             // twist case
             if (face != cubeState.faces[face]) {
-                twists.push(letterMapCorners[Object.keys(cubeState.faces).find(key => cubeState.faces[key] === posFaces[pos][1])]);
+                faces.pop();
+                twists.push(letterMapCorners[posFacesAll[pos].find(p => cubeState.faces[p] === posFaces[pos][1])]);
             }
             pos = null;
         } else {
@@ -139,6 +140,7 @@ export const getEdgeLetters = (cubeState) => {
         if (pos == cubeState.positions[pos]) {
             // twist case
             if (face != cubeState.faces[face]) {
+                faces.pop();
                 twist.push(letterMapEdges[posFaces[pos][0]]+letterMapEdges[posFaces[pos][1]]);
             }
             pos = null;
