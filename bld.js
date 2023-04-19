@@ -84,7 +84,7 @@ export const getCornerLetters = (cubeState) => {
     let face = 53;
     
     const faces = [];
-    const corners = [19, 20, 21, 22, 23, 24, 25, 26];
+    const corners = [22, 21, 19, 24, 23, 20, 26, 25];
     const twists = [];
 
     while (corners.length) {
@@ -124,7 +124,7 @@ export const getEdgeLetters = (cubeState) => {
     let face = 9;
     
     const faces = [];
-    const edges = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    const edges = [11, 12, 13, 14, 17, 15, 7, 8, 10, 16, 18, 9];
     const twist = [];
 
     while (edges.length) {
