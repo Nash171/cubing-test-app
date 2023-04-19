@@ -1,6 +1,19 @@
 <html>
     <head>
         <style>
+            .container {
+                display: flex;
+                flex-direction: column;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+
+            #preview {
+                align-self: center;
+                margin: 20px 0;
+                
+            }
+
             .layer2 {
                 display: flex;
             }
@@ -43,30 +56,64 @@
                 background-color: yellow;
             }
 
+            .scramble {
+                display: flex;
+                margin: 10px;
+            }
+
             #scrambleSeq {
-                width: 500px;
-                margin: 10px auto;
+                flex-grow: 1;
+                font-size: 30px;
+            }
+
+            #scrambleBtn {
+                background-color: #000000;
+                color: #fff;
+                border: none;
+                padding: 0 20px;
+            }
+
+            #memo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 30px;
+                margin: 20px;
             }
         </style>
     </head>
     <body>
-        <input id="scrambleSeq" type="text" />
-        <button id="scrambleBtn">Scramble</button>
-        <div id="preview">
-            <div class="layer1">
-                <div id="top" class="side top"></div>
+        <div class="container">
+            <div class="scramble">
+                <input id="scrambleSeq" type="text" />
+                <button id="scrambleBtn">Scramble</button>
             </div>
-            <div class="layer2">
-                <div id="left" class="side left"></div>
-                <div id="front" class="side front"></div>
-                <div id="right" class="side right"></div>
-                <div id="back" class="side back"></div>
+            
+            
+            <div id="preview">
+                <div class="layer1">
+                    <div id="top" class="side top"></div>
+                </div>
+                <div class="layer2">
+                    <div id="left" class="side left"></div>
+                    <div id="front" class="side front"></div>
+                    <div id="right" class="side right"></div>
+                    <div id="back" class="side back"></div>
+                </div>
+                <div class="layer3">
+                    <div id="bottom" class="side bottom"></div>
+                </div>
             </div>
-            <div class="layer3">
-                <div id="bottom" class="side bottom"></div>
+            <div id="memo">
+                <div id="corner-memo">
+                
+                </div>
+                <div id="edge-memo">
+                
+                </div>
             </div>
         </div>
-        <div id="memo"></div>
+        
         <script type="module" src="./scramble.mjs"></script>
     </body>
 </html>

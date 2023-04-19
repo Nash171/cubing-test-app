@@ -54,109 +54,107 @@ const letterMapEdges ={
     8: 'X'
 }
 
-export const posFaces = {
-    7: 7, // UB
-    8: 8, // UR
-    9: 9, // UF
-    10: 10, // UL
-    11: 18, // LF
-    12: 16, // RF
-    13: 26, // RB
-    14: 24, // LB
-    15: 27, // FD
-    16: 21, // RD
-    17: 29, // BD
-    18: 13, // LD
-    // corners
-    19: 48,
-    20: 44,
-    21: 40,
-    22: 36,
-    23: 51,
-    24: 46,
-    25: 53,
-    26: 54
+export const posFaces = { // yellow / green
+    // edges
+    7: [7, 23], // DB
+    8: [8, 19], // DL
+    9: [9, 15], // DF
+    10: [10, 11], // DR
+    11: [18, 12], // LF
+    12: [16, 22], // RF
+    13: [26, 20], // BL
+    14: [24, 14], // BR
+    15: [27, 17], // UF
+    16: [21, 28], // LU
+    17: [29, 25], // UB
+    18: [13, 30], // RU
+    // corners - preferred, w/y
+    19: [48, 31],
+    20: [44, 32],
+    21: [40, 33],
+    22: [36, 34],
+    23: [51, 51],
+    24: [46, 52],
+    25: [53, 53],
+    26: [54, 54]
 }
 
-export const getCornerWords = (cubeState) => {  
+export const getCornerLetters = (cubeState) => {  
     let pos = 25; // buffer
     let face = 53;
     
-    let letters = "";
-    const corners = [19, 20, 21, 22, 23, 24, 25, 26].filter(corner => corner !== cubeState.positions[corner]); // can be order differently
-
+    const faces = [];
+    const corners = [19, 20, 21, 22, 23, 24, 25, 26];
+    const twists = [];
 
     while (corners.length) {
         if (!pos) {
             pos = corners[0];
-            face = posFaces[pos];
-            letters += letterMapCorners[face];
+            face = posFaces[pos][0];
+            faces.push(letterMapCorners[face]);
         }
         // console.log(pos, face, letterMapCorners[face]);
         corners.splice(corners.indexOf(pos), 1);
 
         if (pos == cubeState.positions[pos]) {
-            if (face == cubeState.faces[face]) {
-                // solved case
-                pos = null;
-            } else {
-                // twist case
-                pos = null;
+            // twist case
+            if (face != cubeState.faces[face]) {
+                twists.push(letterMapCorners[Object.keys(cubeState.faces).find(key => cubeState.faces[key] === posFaces[pos][1])]);
             }
+            pos = null;
         } else {
             pos = cubeState.positions[pos];
             face = cubeState.faces[face];
             // console.log("next", pos, face, letterMapCorners[face], corners);
             if (corners.indexOf(pos) < 0) {
                 if (pos != 25) // buffer
-                    letters += letterMapCorners[face];
+                    faces.push(letterMapCorners[face]);
                 pos = null;
             } else {
-                letters += letterMapCorners[face];
+                faces.push(letterMapCorners[face]);
             }
         }  
     }
     
-    return letters.match(/.{1,2}/g) //.map(combi => combi.length == 2 ? ( words[combi] || "TBD") : combi);
+    return [faces.join("").match(/.{1,2}/g), twists];
 }
 
-export const getEdgeWords = (cubeState) => {  
+export const getEdgeLetters = (cubeState) => {  
     let pos = 9;
     let face = 9;
     
-    let letters = "";
-    const edges = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].filter(edge => edge !== cubeState.positions[edge]);;
+    const faces = [];
+    const edges = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    const twist = [];
 
     while (edges.length) {
         if (!pos) {
             pos = edges[0];
-            face = posFaces[pos];
-            letters += letterMapEdges[face];
+            face = posFaces[pos][0];
+            faces.push(letterMapEdges[face]);
         }
         // console.log(pos, face, letterMapEdges[face]);
         edges.splice(edges.indexOf(pos), 1);
 
         if (pos == cubeState.positions[pos]) {
-            if (face == cubeState.faces[face]) {
-                // solved case
-                pos = null;
-            } else {
-                // twist case
-                pos = null;
+            // twist case
+            if (face != cubeState.faces[face]) {
+                twist.push(letterMapEdges[posFaces[pos][0]]+letterMapEdges[posFaces[pos][1]]);
             }
+            pos = null;
         } else {
             pos = cubeState.positions[pos];
             face = cubeState.faces[face];
             // console.log("next", pos, face, letterMapEdges[face]);
             if (edges.indexOf(pos) < 0) {
                 if (pos != 9) // buffer
-                    letters += letterMapEdges[face];
+                faces.push(letterMapEdges[face]);
                 pos = null;
             } else {
-                letters += letterMapEdges[face];
+                faces.push(letterMapEdges[face]);
             }
         }  
     }
     
-    return letters.match(/.{1,2}/g);
+    return [faces.join("").match(/.{1,2}/g), twist];
 }

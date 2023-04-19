@@ -1,5 +1,5 @@
 import { scramble, faceColors } from './algs.js';
-import { getCornerWords, getEdgeWords } from './bld.js';
+import { getCornerLetters, getEdgeLetters } from './bld.js';
 
 const sides = {
     top: [
@@ -51,10 +51,11 @@ document.getElementById("scrambleBtn").onclick = function() {
     console.log(cubeState);
 
     setCubeState(cubeState);
-    const cornerWords = getCornerWords(cubeState);
-    const edgeWords = getEdgeWords(cubeState);
+    const [cletters, ctwists] = getCornerLetters(cubeState);
+    const [eletters, etwists] = getEdgeLetters(cubeState);
 
-    document.getElementById("memo").innerText = cornerWords.join(" ")+ " | " + edgeWords.join(" ");
+    document.getElementById("corner-memo").innerText = cletters.join(" ")+ " | " + ctwists.join(" ");
+    document.getElementById("edge-memo").innerText = eletters.join(" ")+ " | " + etwists.join(" ");
 };
 
 window.onload = function() {
