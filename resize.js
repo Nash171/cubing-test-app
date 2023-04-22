@@ -14,8 +14,8 @@ for (let i = 0; i < letters.length; i++) {
 function resize(input, output) {
     sharp(input)
     .resize({
-        width: 40,
-        height: 40,
+        width: 60,
+        height: 60,
         fit: "contain",
         background: "#FFF"
     })
