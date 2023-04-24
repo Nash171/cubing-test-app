@@ -1,4 +1,4 @@
-import { posFaces as posFacesAll } from './algs.js';
+import { POSITIONS } from './algs.js';
 
 const letterMapCorners = { 
     53: 'A',
@@ -100,7 +100,7 @@ export const getCornerLetters = (cubeState) => {
             // twist case
             if (face != cubeState.faces[face]) {
                 faces.pop();
-                twists.push(letterMapCorners[posFacesAll[pos].find(p => cubeState.faces[p] === posFaces[pos][1])]);
+                twists.push(letterMapCorners[POSITIONS[pos].faces.find(p => cubeState.faces[p] === posFaces[pos][1])]);
             }
             pos = null;
         } else {
