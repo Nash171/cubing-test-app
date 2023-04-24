@@ -1,4 +1,4 @@
-import { POSITIONS } from './algs.js';
+import { POSITIONS } from './cube.js';
 
 const letterMapCorners = { 
     53: 'A',

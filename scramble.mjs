@@ -1,5 +1,6 @@
-import { scramble, faceColors } from './algs.js';
+import { scramble } from './algs.js';
 import { getCornerLetters, getEdgeLetters } from './bld.js';
+import { COLORS } from './cube.js';
 import words from './words.json' assert { type: "json" };
 
 const sides = {
@@ -42,7 +43,7 @@ const setColor = (fId, color) => {
 
 const setCubeState = (cubeState) => {
     for (const face in cubeState.faces) {
-        setColor(`face-${face}`,faceColors[cubeState.faces[face]]);
+        setColor(`face-${face}`, COLORS[cubeState.faces[face].color]);
     }
 }
 
