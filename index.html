@@ -1,62 +1,132 @@
 <html>
     <head>
         <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
+            .container {
+                display: flex;
+                flex-direction: column;
+                max-width: 1000px;
+                margin: 0 auto;
+                background-color: #bfbfbf;
             }
-            
-            td, th {
-                border: 1px solid #9b9b9b;
+
+            #preview {
+                align-self: center;
+                margin: 20px 0;
             }
-            
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
+
+            .preview-row2 {
+                display: flex;
             }
-        
-            td {
-                text-align: center;
+
+            .side {
+                margin: 1px;
             }
-        
-            td.row-header {
-                font-weight: bold;
-                padding: 0 10px;
+
+            .side.top, .side.bottom {
+                margin-left: 97px;
             }
-        
-            td img {
-                max-width: 100%;
-                max-height: 40px;
+
+            .row {
+                display: flex;
             }
-        
-            td.text-cell {
-                padding: 0 10px;
-                height: 40px;
+
+            .face {
+                width: 30px;
+                height: 30px;
+                border: 1px solid black;
+                border-radius: 3px;
             }
-        
-            td.img-cell {
-                min-width: 40px;
-                height: 40px;
-                border-left: 1px solid #92fd6f;
+
+            .face.red {
+                background-color: #b71234;
             }
-        
-            tr:hover{
-                background-color: #cdfbbd;
+            .face.orange {
+                background-color: #ff5800;
             }
-        
-            td:hover{
-                background-color: #92fd6f;
+            .face.green {
+                background-color: #009b48;
+            }
+            .face.blue {
+                background-color: #0046ad;
+            }
+            .face.white {
+                background-color: #ffffff;
+            }
+            .face.yellow {
+                background-color: #ffd500;
+            }
+
+            .scramble {
+                display: flex;
+                margin: 10px;
+            }
+
+            #scrambleSeq {
+                flex-grow: 1;
+                font-size: 30px;
+            }
+
+            #scrambleBtn {
+                background-color: #000000;
+                color: #fff;
+                border: none;
+                padding: 0 20px;
+            }
+
+            #memo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 22px;
+                margin: 20px;
+            }
+
+            #corner-words, #edge-words {
+                color: #ff0000;
+            }
+
+            #corner-images, #edge-images {
+                margin: 10px 0;
+            }
+
+            .memo-img {
+                width: 60px;
+                height: 60px;
             }
         </style>
     </head>
     <body>
-        <table>
-            <thead>
-                <tr id="header-row">
-                    <th>*</th>
-                </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
-        </table>
-        <script type="module" src="./index.mjs"></script>
+        <div class="container">
+            <div class="scramble">
+                <input id="scrambleSeq" type="text" />
+                <button id="scrambleBtn">Scramble</button>
+            </div>
+            
+            
+            <div id="preview">
+                <div class="preview-row1">
+                    <div id="top" class="side top"></div>
+                </div>
+                <div class="preview-row2">
+                    <div id="left" class="side left"></div>
+                    <div id="front" class="side front"></div>
+                    <div id="right" class="side right"></div>
+                    <div id="back" class="side back"></div>
+                </div>
+                <div class="preview-row3">
+                    <div id="bottom" class="side bottom"></div>
+                </div>
+            </div>
+            <div id="memo">
+                <div id="corner-memo"></div>
+                <div id="corner-words"></div>
+                <div id="corner-images"></div>
+                <div id="edge-memo"></div>
+                <div id="edge-words"></div>
+                <div id="edge-images"></div>
+            </div>
+        </div>
+        
+        <script type="module" src="./index.js"></script>
     </body>
 </html>

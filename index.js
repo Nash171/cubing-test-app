@@ -1,4 +1,4 @@
-import { scramble } from './algs.js';
+import { scramble } from './scramble.js';
 import { getCornerLetters, getEdgeLetters } from './bld.js';
 import { COLORS } from './cube.js';
 import words from './words.json' assert { type: "json" };
