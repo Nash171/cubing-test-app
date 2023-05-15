@@ -1,6 +1,9 @@
+import { scramble } from './scramble.js';
+import words from './words.json' assert { type: "json" };
 import { POSITIONS } from './cube.js';
 
-const letterMapCorners = { 
+const letterMap = {
+    // corners 
     53: 'A',
     54: 'B',
     51: 'C',
@@ -24,10 +27,8 @@ const letterMapCorners = {
     33: 'U',
     34: 'V',
     31: 'W',
-    32: 'X'
-}
-
-const letterMapEdges ={ 
+    32: 'X',
+    // edges
     29: 'A',
     30: 'B',
     27: 'C',
@@ -48,10 +49,10 @@ const letterMapEdges ={
     26: 'R',
     23: 'S',
     24: 'T',
-    9: 'U',
+    9:  'U',
     10: 'V',
-    7: 'W',
-    8: 'X'
+    7:  'W',
+    8:  'X'
 }
 
 export const posFaces = { // yellow / green
@@ -80,7 +81,7 @@ export const posFaces = { // yellow / green
 }
 
 export const getCornerLetters = (cubeState) => {  
-    let pos = 25; // buffer
+    let position = 25; // buffer
     let face = 53;
     
     const faces = [];
@@ -88,31 +89,35 @@ export const getCornerLetters = (cubeState) => {
     const twists = [];
 
     while (corners.length) {
-        if (!pos) {
-            pos = corners[0];
-            face = posFaces[pos][0];
-            faces.push(letterMapCorners[face]);
+        if (!position) {
+            position = corners[0];
+            face = posFaces[position][0];
+            faces.push(cubeState.faces[face].letter);
         }
-        // console.log(pos, face, letterMapCorners[face]);
-        corners.splice(corners.indexOf(pos), 1);
+        const cubit = cubeState.positions[position];
+        const facit = cubeState.faces[face];
 
-        if (pos == cubeState.positions[pos]) {
+        // console.log(pos, face, cubit, facit);
+        corners.splice(corners.indexOf(position), 1);
+
+        if (position == cubit.id) {
             // twist case
             if (face != cubeState.faces[face]) {
                 faces.pop();
-                twists.push(letterMapCorners[POSITIONS[pos].faces.find(p => cubeState.faces[p] === posFaces[pos][1])]);
+                twists.push(letterMapCorners[POSITIONS[position].faces.find(p => cubeState.faces[p] === posFaces[position][1])]);
             }
-            pos = null;
+            position = null;
         } else {
-            pos = cubeState.positions[pos];
-            face = cubeState.faces[face];
+            position = cubit.id;
+            face = facit.id;
             // console.log("next", pos, face, letterMapCorners[face], corners);
-            if (corners.indexOf(pos) < 0) {
-                if (pos != 25) // buffer
-                    faces.push(letterMapCorners[face]);
-                pos = null;
+            if (corners.indexOf(position) < 0) {
+                if (position != 25) { // buffer
+                    faces.push(cubeState.faces[face].letter);
+                }
+                position = null;
             } else {
-                faces.push(letterMapCorners[face]);
+                faces.push(cubeState.faces[face].letter);
             }
         }  
     }
@@ -160,3 +165,83 @@ export const getEdgeLetters = (cubeState) => {
     
     return [faces.join("").match(/.{1,2}/g), twist];
 }
+
+let cubestate = null;
+
+const positionState = {};
+
+const initPositionState = () => {
+    for(const pid in POSITIONS) {
+        positionState[pid] = false;
+    }
+}
+
+const startCycle = (start) => {
+    console.log("start", sid);
+    const cycle = [];
+
+    let facit = cubestate.faces[start];
+    let cubit = cubestate.positions[facit.cubit];
+    positionState[cubit.id] = true;
+
+    do {
+        cubit.visited = true;
+        cycle.push(letterMap[facit.id]);
+        
+        facit = cubestate.faces[facit.id];
+        cubit = cubestate.positions[facit.cubit];
+    } while (!cubit.visited)
+
+    console.log("start", cycle);
+    return cycle;
+}
+
+const cornerList =  document.getElementById("corner-list");
+const cornerFaces = Array.from(Array(24), (e,i)=>i+31);
+
+for (let fid of cornerFaces) { // console.log("fid", fid);
+    const face = document.createElement("button");
+    face.innerText = letterMap[fid];
+    face.addEventListener("click", function () {
+        startCycle(fid);
+    });
+    cornerList.appendChild(face);
+}
+
+document.getElementById("scrambleBtn").onclick = function() {
+    const scrambleSeq = document.getElementById("scrambleSeq").value;
+    cubestate = scramble(scrambleSeq);
+    initPositionState();
+    console.log(cubestate);
+
+/*
+    const [cletters, ctwists] = getCornerLetters(cubeState);
+    const [eletters, etwists] = getEdgeLetters(cubeState);
+
+    document.getElementById("corner-memo").innerText = cletters.join(" ")+ " / " + ctwists.join(" ");
+    document.getElementById("corner-words").innerText = cletters.map(combi => words[combi] || combi).join(" ");
+
+    const cimages = document.getElementById("corner-images");
+    cimages.innerHTML = "";
+
+    for (const combi of cletters) {
+        const img = document.createElement("img");
+        img.className = "memo-img";
+        img.src = `images/${combi}.jpg`
+        cimages.appendChild(img);
+    }
+
+    document.getElementById("edge-memo").innerText = eletters.join(" ")+ " / " + etwists.join(" ");
+    document.getElementById("edge-words").innerText = eletters.map(combi => words[combi] || combi).join(" ");
+
+    const eimages = document.getElementById("edge-images");
+    eimages.innerHTML = "";
+
+    for (const combi of eletters) {
+        const img = document.createElement("img");
+        img.className = "memo-img";
+        img.src = `images/${combi}.jpg`
+        eimages.appendChild(img);
+    }
+*/
+};

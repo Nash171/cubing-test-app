@@ -1,7 +1,5 @@
 import { scramble } from './scramble.js';
-import { getCornerLetters, getEdgeLetters } from './bld.js';
 import { COLORS } from './cube.js';
-import words from './words.json' assert { type: "json" };
 
 const sides = {
     top: [
@@ -37,7 +35,7 @@ const sides = {
 }
 
 const setColor = (fId, color) => {
-    // console.log(fId);
+    // console.log(fId, color);
     document.getElementById(fId).className = `face ${color}`;
 }
 
@@ -53,34 +51,6 @@ document.getElementById("scrambleBtn").onclick = function() {
     console.log(cubeState);
 
     setCubeState(cubeState);
-    const [cletters, ctwists] = getCornerLetters(cubeState);
-    const [eletters, etwists] = getEdgeLetters(cubeState);
-
-    document.getElementById("corner-memo").innerText = cletters.join(" ")+ " / " + ctwists.join(" ");
-    document.getElementById("corner-words").innerText = cletters.map(combi => words[combi] || combi).join(" ");
-
-    const cimages = document.getElementById("corner-images");
-    cimages.innerHTML = "";
-
-    for (const combi of cletters) {
-        const img = document.createElement("img");
-        img.className = "memo-img";
-        img.src = `images/${combi}.jpg`
-        cimages.appendChild(img);
-    }
-
-    document.getElementById("edge-memo").innerText = eletters.join(" ")+ " / " + etwists.join(" ");
-    document.getElementById("edge-words").innerText = eletters.map(combi => words[combi] || combi).join(" ");
-
-    const eimages = document.getElementById("edge-images");
-    eimages.innerHTML = "";
-
-    for (const combi of eletters) {
-        const img = document.createElement("img");
-        img.className = "memo-img";
-        img.src = `images/${combi}.jpg`
-        eimages.appendChild(img);
-    }
 };
 
 window.onload = function() {
@@ -102,7 +72,6 @@ window.onload = function() {
             sideElem.appendChild(row);
         }
     }
-
 
     const cubeState = scramble("");
     // console.log(cubeState);

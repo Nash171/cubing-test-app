@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <style>
+            .container {
+                display: flex;
+                flex-direction: column;
+                max-width: 1000px;
+                margin: 0 auto;
+                background-color: #bfbfbf;
+            }
+
+            .scramble {
+                display: flex;
+                margin: 10px;
+            }
+
+            #scrambleSeq {
+                flex-grow: 1;
+                font-size: 30px;
+            }
+
+            #scrambleBtn {
+                background-color: #000000;
+                color: #fff;
+                border: none;
+                padding: 0 20px;
+            }
+
+            #memo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 22px;
+                margin: 20px;
+            }
+
+            #corner-words, #edge-words {
+                color: #ff0000;
+            }
+
+            #corner-images, #edge-images {
+                margin: 10px 0;
+            }
+
+            .memo-img {
+                width: 60px;
+                height: 60px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="scramble">
+                <input id="scrambleSeq" type="text" />
+                <button id="scrambleBtn">Memo</button>
+            </div>
+            <div id="memo">
+                <div id="corner-list"></div>
+                <div id="corner-memo"></div>
+                <div id="corner-words"></div>
+                <div id="corner-images"></div>
+                <div id="edge-list"></div>
+                <div id="edge-memo"></div>
+                <div id="edge-words"></div>
+                <div id="edge-images"></div>
+            </div>
+        </div>
+        
+        <script type="module" src="./bld.js"></script>
+    </body>
+</html>

@@ -111,32 +111,26 @@ export const FACES = {
     // centers
     1: {
         side: 'U',
-        letter: '-',
         position: 1,
     },
     2: {
         side: 'L',
-        letter: '-',
         position: 2,
     },
     3: {
         side: 'F',
-        letter: '-',
         position: 3,
     },
     4: {
         side: 'R',
-        letter: '-',
         position: 4,
     },
     5: {
         side: 'B',
-        letter: '-',
         position: 5,
     },
     6: {
         side: 'D',
-        letter: '-',
         position: 6,
     },
     // edges
@@ -457,7 +451,6 @@ class Facit {
         this.face = id;
         this.cubit = FACES[id].position;
         this.color = id > 6 ? Math.floor(((id-7)%24)/4)+1 : id;
-        this.letter = id > 6 ? String.fromCharCode(65+((id-7)%24)) : '-';
     }
 
     logState() {
